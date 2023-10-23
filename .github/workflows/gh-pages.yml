@@ -1,0 +1,41 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Ruby environment
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: 3.1.2p20
+
+    - name: Install Bundler
+      run: gem install bundler
+      if: runner.os == 'Linux'
+
+    - name: Install project dependencies
+      run: bundle install
+
+    - name: Build
+      run: bundle exec rake assets:precompile
+
+    - name: Deploy
+      run: |
+        git config --global user.name "${{ secrets.GITHUB_ACTOR }}"
+        git config --global user.email "${{ secrets.GITHUB_ACTOR }}@users.noreply.github.com"
+        git checkout --orphan gh-pages
+        git --set-upstream-to=origin/master
+        git pull
+        mv -f public/* .
+        git add --all
+        git commit --message "Auto-deploy via GitHub Actions"
+        git push origin gh-pages -f
