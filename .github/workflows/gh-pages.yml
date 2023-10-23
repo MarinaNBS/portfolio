@@ -3,7 +3,7 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   deploy:
@@ -34,7 +34,7 @@ jobs:
         git config --global user.name "MarinaNBS"
         git config --global user.email "mnascimentos11@gmail.com"
         git checkout --orphan gh-pages
-        git --set-upstream-to=origin/main
+        git branch -u origin/main
         git pull
         mv -f dist/* .
         git add --all
