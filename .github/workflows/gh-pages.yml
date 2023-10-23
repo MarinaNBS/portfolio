@@ -13,16 +13,20 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v2
+    - name: Set up Ruby environment
+      uses: ruby/setup-ruby@v1
       with:
-        node-version: 14
+        ruby-version: 3.1.2p20
 
-    - name: Install dependencies
-      run: npm install
+    - name: Install Bundler
+      run: gem install bundler
+      if: runner.os == 'Linux'
+
+    - name: Install project dependencies
+      run: bundle install
 
     - name: Build
-      run: npm run build
+      run: bundle exec rake assets:precompile
 
     - name: Deploy
       run: |
@@ -31,7 +35,7 @@ jobs:
         git checkout --orphan gh-pages
         git --set-upstream-to=origin/master
         git pull
-        mv -f dist/* .
+        mv -f public/* .
         git add --all
         git commit --message "Auto-deploy via GitHub Actions"
         git push origin gh-pages -f
