@@ -59,16 +59,17 @@
   background-color: white;
   text-align: left;
   margin-left: 57px;
+  border-radius: 5px;
+  box-shadow: 0 6px 8px rgba(0, 0, 0.2, 0.2);
+  transition: transform 0.2s ease-in-out;
+}
 
-  img {
-    border-radius: 5px;
-    box-shadow: 0 6px 8px rgba(0, 0, 0.2, 0.2);
-    transition: transform 0.2s ease-in-out;
-  }
-  img:hover {
-    transform: scale(1.02);
-  }
-  h2:hover {
-    text-decoration: underline;
-  }
+.card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 6px 8px rgba(0, 0, 0.2, 0.2);
+  background-color: #b2dcb6;
+}
+
+h2:hover {
+  text-decoration: underline;
 }
